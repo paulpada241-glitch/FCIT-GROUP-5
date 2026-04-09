@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f766e">
+    <title>Five Star Broiler Enterprise | Order Online</title>
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #0d5c56;
+            --accent: #f59e0b;
+            --bg: #f0fdfa;
+            --surface: #ffffff;
+            --surface-soft: #f8fffe;
+            --text: #134e4a;
+            --muted: #5f7a77;
+            --border: #ccfbf1;
+            --shadow: 0 10px 24px rgba(15, 118, 110, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background: linear-gradient(180deg, #e0f2f1 0%, var(--bg) 40%);
+            line-height: 1.45;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .brand-title {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            padding: 10px 14px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            transition: all 0.22s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            border-color: #99f6e4;
+            background: #ecfeff;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 24px auto;
+            padding: 0 20px;
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
+        }
+
+        .anchor {
+            scroll-margin-top: 76px;
+        }
+
+        .hero {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.65rem, 3vw, 2.35rem);
+        }
+
+        .hero p {
+            margin: 0 auto 22px;
+            max-width: 620px;
+            color: var(--muted);
+        }
+
+        .shop-layout {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 330px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 18px;
+        }
+
+        .products-grid {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface-soft);
+            padding: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 16px rgba(15, 118, 110, 0.08);
+            background: #fff;
+        }
+
+        .card img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+            border-radius: 10px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .price {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin: 6px 0 10px;
+        }
+
+        .checkline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .checkout-panel {
+            position: sticky;
+            top: 88px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid #ecfeff;
+            padding: 0 0 8px;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+        }
+
+        .totals {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin: 10px 0;
+        }
+
+        .field-label {
+            display: block;
+            margin-top: 16px;
+            font-size: 0.8rem;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .control {
+            width: 100%;
+            margin-top: 6px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #99f6e4;
+            background: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            width: 220px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-order {
+            margin-top: 16px;
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-order:hover:enabled {
+            filter: brightness(0.95);
+            transform: translateY(-1px);
+        }
+
+        .btn-order:disabled {
+            background: #cbd5d1;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .muted {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        footer {
+            margin-top: 40px;
+            background: #134e4a;
+            color: #ccfbf1;
+            text-align: center;
+            padding: 22px 14px;
+        }
+
+        @media (max-width: 920px) {
+            .shop-layout {
+                grid-template-columns: 1fr;
+            }
+            .checkout-panel {
+                position: static;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin-top: 18px;
+                padding: 0 14px;
+                padding-left: max(14px, env(safe-area-inset-left));
+                padding-right: max(14px, env(safe-area-inset-right));
+            }
+            .hero {
+                padding: 28px 16px;
+            }
+            .brand-title {
+                font-size: 1.05rem;
+                text-align: center;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            nav {
+                justify-content: center;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            nav a {
+                flex: 0 0 auto;
+            }
+            .btn-primary {
+                width: 100%;
+                max-width: none;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="nav-container">
+        <h2 class="brand-title">Five Star Broiler Enterprise</h2>
+        <nav>
+            <a href="#top">Home</a>
+            <a href="#purchase">Buy Now</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <section id="top" class="anchor">
+        <div class="hero">
+            <h1>Fresh poultry, straight from our farm</h1>
+            <p>Pick what you need below, review your order, and confirm. Same-day pickup or delivery details can be arranged after checkout.</p>
+            <a href="#purchase" class="btn btn-primary" style="display: inline-block; text-decoration: none; text-align: center;">Start your order</a>
+        </div>
+    </section>
+
+    <section id="purchase" class="anchor">
+        <div class="shop-layout">
+            <div class="products-column">
+                <div class="block">
+                    <h2 style="margin-top: 0;">Available today</h2>
+                    <p class="muted" style="margin-bottom: 0;">Select one or more items. Uncheck to remove from your order.</p>
+                    <div class="products-grid">
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&amp;w=640&amp;h=480&amp;fit=crop&amp;q=80" alt="Day-old chicks" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <h3>Day-old Chicks (per bird)</h3>
+                            <p class="price">₦450</p>
+                            <label class="checkline"><input type="checkbox" class="cart-check" data-name="Day-old Chicks" data-price="450" onchange="syncCart()"> Add to order</label>
+                        </div>
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1589923188659-0a84e3e8a1c5?auto=format&amp;w=640&amp;h=480&amp;fit=crop&amp;q=80" alt="Grower birds" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <h3>Grower Birds (4–6 weeks)</h3>
+                            <p class="price">₦3,500</p>
+                            <label class="checkline"><input type="checkbox" class="cart-check" data-name="Grower Birds" data-price="3500" onchange="syncCart()"> Add to order</label>
+                        </div>
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1612171757817-12261c2c6d6f?auto=format&amp;w=640&amp;h=480&amp;fit=crop&amp;q=80" alt="Table-size chicken" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <h3>Table-size Chicken</h3>
+                            <p class="price">₦8,500</p>
+                            <label class="checkline"><input type="checkbox" class="cart-check" data-name="Table-size Chicken" data-price="8500" onchange="syncCart()"> Add to order</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="checkout-panel block">
+                <h3 style="margin-top: 0;">Your order</h3>
+                <div id="cart-list">
+                    <p class="muted" style="text-align: center;">Nothing selected yet</p>
+                </div>
+                <hr style="border: 0; border-top: 1px solid #ecfeff;">
+                <div class="totals">
+                    <span>Total:</span>
+                    <span>₦<span id="total-price">0</span></span>
+                </div>
+
+                <label class="field-label" for="payment-choice">How to pay</label>
+                <select id="payment-choice" class="control">
+                    <option value="WhatsApp Business">Order via WhatsApp</option>
+                    <option value="Direct Bank Transfer">Bank transfer</option>
+                    <option value="Pay on pickup">Pay on pickup</option>
+                </select>
+
+                <button id="order-btn" class="btn btn-order" onclick="submitOrder()" disabled>Confirm order</button>
+            </aside>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <p style="margin: 0;">© 2026 Sunrise Valley Poultry</p>
+</footer>
+
+<script>
+    const WHATSAPP_ORDER_NUMBER = "2340000000000";
+
+    function syncCart() {
+        const checkboxes = document.querySelectorAll(".cart-check");
+        const cartDisplay = document.getElementById("cart-list");
+        const totalDisplay = document.getElementById("total-price");
+        const orderButton = document.getElementById("order-btn");
+        let total = 0;
+        let html = "";
+        let count = 0;
+
+        checkboxes.forEach((box) => {
+            if (box.checked) {
+                const name = box.getAttribute("data-name");
+                const price = Number(box.getAttribute("data-price"));
+                total += price;
+                count += 1;
+                html += `<div class="cart-item"><span>${name}</span><span>₦${price.toLocaleString()}</span></div>`;
+            }
+        });
+
+        cartDisplay.innerHTML = count > 0 ? html : '<p class="muted" style="text-align: center;">Nothing selected yet</p>';
+        orderButton.disabled = count === 0;
+        totalDisplay.innerText = total.toLocaleString();
+    }
+
+    function submitOrder() {
+        const total = document.getElementById("total-price").innerText;
+        const method = document.getElementById("payment-choice").value;
+
+        if (method === "WhatsApp Business") {
+            const msg = encodeURIComponent(
+                `Hello Sunrise Valley Poultry,\n\nI'd like to place an order.\nTotal: ₦${total}\n\n(Please confirm availability.)`
+            );
+            window.open(`https://wa.me/${WHATSAPP_ORDER_NUMBER}?text=${msg}`, "_blank", "noopener,noreferrer");
+        } else {
+            alert(`Thanks!\nTotal: ₦${total}\nMethod: ${method}\n\nWe'll contact you with the next steps.`);
+        }
+    }
+</script>
+</body>
+</html>
