@@ -1,31 +1,11 @@
-<!--
-  =============================================================================
-  Birds Of The Same Feather — single-file e-commerce prototype (FCIT Group 5)
-  =============================================================================
-  STRUCTURE (top → bottom):
-    1) <head>     — page title, viewport, and all CSS (layout, colors, mobile).
-    2) <header>   — logo/title + nav; nav calls navigate() to swap “pages”.
-    3) #home      — hero + partner tiles (some are links, some are open slots).
-    4) #shop      — your products + partner showcase + checkout sidebar.
-    5) #contact   — simple demo form (frontend only; does not send email).
-    6) <script>   — tab switching, cart math, partner filter, WhatsApp handoff.
-
-  CONFIGURE BEFORE DEPLOY:
-    • Search for CONFIG below (WhatsApp number for store orders).
-    • Put image files next to this HTML OR switch <img src> to full https URLs.
-    • Replace “open slot” text with real partner details when you onboard them.
-  =============================================================================
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#2e7d32">
-    <meta name="description" content="Birds Of The Same Feather — poultry catalog, partners, and order demo.">
     <title>Birds Of The Same Feather | E-Commerce</title>
     <style>
-        /* ---------- Design tokens: change these to re-theme the whole site ---------- */
         :root {
             --primary: #2e7d32;
             --primary-dark: #1f5d23;
@@ -37,11 +17,11 @@
             --muted: #6b7280;
             --border: #dce3dd;
             --shadow: 0 10px 24px rgba(16, 24, 40, 0.08);
-            --slot-border: #94a3b8;
-            --slot-bg: #f8fafc;
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         html {
             -webkit-text-size-adjust: 100%;
@@ -56,7 +36,6 @@
             overflow-x: hidden;
         }
 
-        /* ---------- Sticky top bar ---------- */
         header {
             position: sticky;
             top: 0;
@@ -121,8 +100,10 @@
             padding-right: max(20px, env(safe-area-inset-right));
         }
 
-        /* ---------- “SPA” pages: only one .page has .active at a time ---------- */
-        .page { display: none; }
+        .page {
+            display: none;
+        }
+
         .page.active {
             display: block;
             animation: fadeIn 0.32s ease;
@@ -171,7 +152,6 @@
             gap: 14px;
         }
 
-        /* Clickable partner tile */
         .partner-box {
             min-height: 96px;
             border: 1px dashed #acc4b0;
@@ -197,26 +177,6 @@
             box-shadow: 0 8px 20px rgba(46, 125, 50, 0.12);
         }
 
-        /* Open listing: not a link — swap for <a> when a partner joins */
-        .partner-slot {
-            border-color: var(--slot-border);
-            border-style: dashed;
-            background: var(--slot-bg);
-            color: #64748b;
-            font-weight: 600;
-            flex-direction: column;
-            gap: 6px;
-            cursor: default;
-        }
-
-        .partner-slot .slot-hint {
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--muted);
-            line-height: 1.35;
-        }
-
-        /* ---------- Shop: main column + sticky checkout ---------- */
         .shop-layout {
             display: grid;
             grid-template-columns: minmax(0, 1fr) 330px;
@@ -358,9 +318,9 @@
             cursor: not-allowed;
         }
 
-        /* ---------- Partner product showcase + filter tabs ----------
-           data-brand on each <article> MUST match filterPartnerProducts('…') */
-        .partner-products { margin-top: 18px; }
+        .partner-products {
+            margin-top: 18px;
+        }
 
         .brand-tabs {
             display: flex;
@@ -436,17 +396,6 @@
             padding: 3px 8px;
         }
 
-        .badge-slot {
-            color: #475569;
-            background: #f1f5f9;
-            border-color: #cbd5e1;
-        }
-
-        .partner-product-slot {
-            border-style: dashed;
-            background: var(--slot-bg);
-        }
-
         .muted {
             margin: 0;
             color: var(--muted);
@@ -484,9 +433,11 @@
             .shop-layout {
                 grid-template-columns: 1fr;
             }
+
             .checkout-panel {
                 position: static;
             }
+
             .products-grid {
                 grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             }
@@ -499,18 +450,22 @@
                 padding-left: max(14px, env(safe-area-inset-left));
                 padding-right: max(14px, env(safe-area-inset-right));
             }
+
             .hero {
                 padding: 28px 16px;
             }
+
             .brand-title {
                 font-size: 1.05rem;
                 text-align: center;
             }
+
             .nav-container {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
             }
+
             nav {
                 justify-content: center;
                 flex-wrap: nowrap;
@@ -518,20 +473,25 @@
                 -webkit-overflow-scrolling: touch;
                 padding-bottom: 4px;
             }
+
             nav a {
                 flex: 0 0 auto;
             }
+
             .btn-primary {
                 width: 100%;
                 max-width: none;
             }
+
             .products-grid,
             .partner-products-grid {
                 grid-template-columns: 1fr;
             }
+
             .partner-grid {
                 grid-template-columns: 1fr;
             }
+
             h2,
             h3 {
                 word-break: break-word;
@@ -546,8 +506,6 @@
     </style>
 </head>
 <body>
-
-<!-- ========== Site header: title + in-page navigation ========== -->
 <header>
     <div class="nav-container">
         <h2 class="brand-title">Birds Of The Same Feather</h2>
@@ -560,69 +518,54 @@
 </header>
 
 <div class="container">
-
-    <!-- ========== HOME: intro + partner directory ========== -->
     <section id="home" class="page active">
         <div class="hero">
             <h1>Welcome to the Flock</h1>
-            <p>Premium poultry products, trusted partners, and a simple order flow. Use <strong>Shop</strong> to build a cart; partners below can be contacted directly.</p>
+            <p>Premium poultry products, trusted care partners, and a clean order flow built for fast purchase decisions.</p>
             <button class="btn btn-primary" onclick="navigate('shop')">Browse Shop</button>
         </div>
 
         <div class="partners-area">
             <h3>Our Key Partners</h3>
-            <p class="section-lead">Live partners link out. Empty tiles are reserved for new businesses.</p>
+            <p class="section-lead">Tap any partner to visit their page or contact them directly</p>
             <div class="partner-grid">
-                <!-- Active partner links -->
                 <a href="https://wa.me/2348074768704" target="_blank" rel="noopener noreferrer" class="partner-box">
-                    Feather Raised Poultry<br>(WhatsApp)
+                    Feather Raised Poultry <br>(WhatsApp)
                 </a>
                 <a href="BPH.html" target="_blank" rel="noopener noreferrer" class="partner-box">
-                    Five Star Broilers Enterprise<br>(Partner page)
+                    Five Star Broilers Enterprise <br>(WhatsApp)
                 </a>
                 <a href="https://www.instagram.com/shoeveilshub?igsh=ZjhtMHlpcmpnNTA0" target="_blank" rel="noopener noreferrer" class="partner-box">
-                    ShoeVeilsHub<br>(Instagram)
+                    ShoeVeilsHub <br>(Instagram)
                 </a>
                 <a href="https://wa.me/2340000000000?text=I%20need%20delivery%20assistance" target="_blank" rel="noopener noreferrer" class="partner-box">
-                    Swift Delivery<br>(WhatsApp)
+                    Swift Delivery <br>(WhatsApp)
                 </a>
-                <!-- Open slots: replace <div class="partner-box partner-slot"> with <a class="partner-box" href="…"> when filled -->
-                <div class="partner-box partner-slot">
-                    Partner slot A<br>
-                    <span class="slot-hint">List your business here — share logo, link, and short blurb with FCIT Group 5.</span>
-                </div>
-                <div class="partner-box partner-slot">
-                    Partner slot B<br>
-                    <span class="slot-hint">Reserved for agriculture, logistics, or retail partners.</span>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== SHOP: catalog + partner showcase + checkout ========== -->
     <section id="shop" class="page">
         <div class="shop-layout">
             <div class="products-column">
                 <div class="block">
                     <h2 style="margin-top: 0;">Product Catalog</h2>
-                    <p class="muted" style="margin-top: 0;">Checkboxes add/remove line items; total updates automatically.</p>
                     <div class="products-grid">
                         <div class="card">
-                            <!-- Deploy these files next to ENT.html, or swap src for https://... URLs -->
-                            <img src="BIRDS2.jpeg" alt="2 Week Old Chick" width="640" height="480" loading="lazy" decoding="async">
+                            <img src="BIRDS2.jpeg" alt="2 Week Old Chick" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer">
                             <h3>2 Week Old Chick</h3>
                             <p class="price">₦2,000</p>
                             <label class="checkline"><input type="checkbox" class="cart-check" data-name="2 Week Old Chick" data-price="2000" onchange="syncCart()"> Add to Order</label>
                         </div>
                         <div class="card">
-                            <img src="BIRD8.jpeg" alt="8 Week Old Chicken" width="640" height="480" loading="lazy" decoding="async">
-                            <h3>8 Week Old Chicken</h3>
-                            <p class="price">₦5,000</p>
+                            <img src="BIRD8.jpeg" alt="8 Week Old Chicken" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <h3>7 Week Old Chicken</h3>
+                            <p class="price">₦8,000</p>
                             <label class="checkline"><input type="checkbox" class="cart-check" data-name="8 Week Old Chicken" data-price="5000" onchange="syncCart()"> Add to Order</label>
                         </div>
                         <div class="card">
-                            <img src="BIRDS9.jpeg" alt="7 Week Old Chicken" width="640" height="480" loading="lazy" decoding="async">
-                            <h3>7 Week Old Chicken</h3>
+                            <img src="WEEK 8.jpeg" alt="7 Week Old Chicken" width="640" height="480" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+                            <h3>8 Week Old Chicken</h3>
                             <p class="price">₦10,000</p>
                             <label class="checkline"><input type="checkbox" class="cart-check" data-name="7 Week Old Chicken" data-price="10000" onchange="syncCart()"> Add to Order</label>
                         </div>
@@ -631,32 +574,31 @@
 
                 <div class="block partner-products">
                     <h3 style="margin: 0;">Brand Partner Products</h3>
-                    <p class="section-lead">Tabs filter by <code>data-brand</code> on each card. Open slots show what sponsors can claim.</p>
+                    <p class="section-lead">Interactive space for each partner's featured products</p>
 
                     <div class="brand-tabs">
-                        <button type="button" class="brand-tab active" onclick="filterPartnerProducts('all', this)">All Brands</button>
-                        <button type="button" class="brand-tab" onclick="filterPartnerProducts('feather-raise', this)">Feather Raised Poultry</button>
-                        <button type="button" class="brand-tab" onclick="filterPartnerProducts('five-star', this)">Five Star Broilers</button>
-                        <button type="button" class="brand-tab" onclick="filterPartnerProducts('shoeveilshub', this)">ShoeVeilsHub</button>
-                        <button type="button" class="brand-tab" onclick="filterPartnerProducts('city-kitchen', this)">City Local Kitchen</button>
-                        <button type="button" class="brand-tab" onclick="filterPartnerProducts('open-slot', this)">Open slots</button>
+                        <button class="brand-tab active" onclick="filterPartnerProducts('all', this)">All Brands</button>
+                        <button class="brand-tab" onclick="filterPartnerProducts('feather-raise', this)">Feather Raise Poultry</button>
+                        <button class="brand-tab" onclick="filterPartnerProducts('golden-coop', this)">Five Star Broilers Enterprise</button>
+                        <button class="brand-tab" onclick="filterPartnerProducts('mama-nkechi', this)">ShoeVeilsHub</button>
+                        <button class="brand-tab" onclick="filterPartnerProducts('city-kitchen', this)">City Local Kitchen</button>
                     </div>
 
                     <div class="partner-products-grid">
                         <article class="partner-product" data-brand="feather-raise">
-                            <span class="badge">Feather Raised Poultry</span>
+                            <span class="badge">Feather Raise Poultry</span>
                             <h4>Starter Feed Combo</h4>
-                            <p class="muted">Partner bundle slot — describe feed volume, pickup, or delivery terms here.</p>
+                            <p class="muted">Reserved slot for feed bundles and seasonal deals.</p>
                         </article>
-                        <article class="partner-product" data-brand="five-star">
-                            <span class="badge">Five Star Broilers Enterprise</span>
+                        <article class="partner-product" data-brand="golden-coop">
+                            <span class="badge">Golden Coop Chicken</span>
                             <h4>Broiler Growth Pack</h4>
                             <p class="muted">Fast-growth chicken package for small and medium farms.</p>
                         </article>
-                        <article class="partner-product" data-brand="shoeveilshub">
-                            <span class="badge">ShoeVeilsHub</span>
-                            <h4>Shoe Care &amp; Accessories</h4>
-                            <p class="muted">Featured retail line — update with real SKU names and price bands.</p>
+                        <article class="partner-product" data-brand="mama-nkechi">
+                            <span class="badge">Mama Nkechi Foods</span>
+                            <h4>Fresh Pepper Mix Basket</h4>
+                            <p class="muted">Local soup ingredients packed for weekly household cooking.</p>
                         </article>
                         <article class="partner-product" data-brand="city-kitchen">
                             <span class="badge">City Local Kitchen</span>
@@ -664,26 +606,14 @@
                             <p class="muted">Prepared local food bundle with spice and protein options.</p>
                         </article>
                         <article class="partner-product" data-brand="feather-raise">
-                            <span class="badge">Feather Raised Poultry</span>
+                            <span class="badge">Feather Raise Poultry</span>
                             <h4>Brooder Setup Kit</h4>
-                            <p class="muted">Heat, drinkers, and starter checklist — customize for your farm offer.</p>
+                            <p class="muted">Placeholder for partner tools and on-site setup support.</p>
                         </article>
-
-                        <!-- Reserved listings: same filter key `open-slot` groups all vacant tiles -->
-                        <article class="partner-product partner-product-slot" data-brand="open-slot">
-                            <span class="badge badge-slot">Open listing</span>
-                            <h4>Featured product slot 1</h4>
-                            <p class="muted">For an approved partner SKU, service bundle, or seasonal promo.</p>
-                        </article>
-                        <article class="partner-product partner-product-slot" data-brand="open-slot">
-                            <span class="badge badge-slot">Open listing</span>
-                            <h4>Featured product slot 2</h4>
-                            <p class="muted">Duplicate this block and change <code>data-brand</code> when a brand goes live.</p>
-                        </article>
-                        <article class="partner-product partner-product-slot" data-brand="open-slot">
-                            <span class="badge badge-slot">Open listing</span>
-                            <h4>Featured product slot 3</h4>
-                            <p class="muted">Keep “Open slots” tab so visitors see capacity for collaboration.</p>
+                        <article class="partner-product" data-brand="mama-nkechi">
+                            <span class="badge">Mama Nkechi Foods</span>
+                            <h4>Village Grain & Beans Basket</h4>
+                            <p class="muted">Bulk local staples for family supply and mini retail resale.</p>
                         </article>
                     </div>
                 </div>
@@ -707,21 +637,20 @@
                     <option value="Online Card Payment">Debit/Credit Card</option>
                 </select>
 
-                <button type="button" id="order-btn" class="btn btn-order" onclick="submitOrder()" disabled>Confirm Order</button>
+                <button id="order-btn" class="btn btn-order" onclick="submitOrder()" disabled>Confirm Order</button>
             </aside>
         </div>
     </section>
 
-    <!-- ========== CONTACT: demo only (no backend) ========== -->
     <section id="contact" class="page">
         <div class="block contact-card">
             <h2 style="margin-top: 0;">Contact Us</h2>
             <p class="section-lead">Reach out to the FCIT Group 5 team.</p>
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('Demo only: connect this form to email or a backend to send messages.');">
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message Received!');">
                 <input class="control" type="text" placeholder="Name" required>
                 <input class="control" type="email" placeholder="Email" required>
                 <textarea class="control" placeholder="Message" style="height: 120px;" required></textarea>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                <button class="btn btn-primary" style="width: 100%;">Send Message</button>
             </form>
         </div>
     </section>
@@ -732,15 +661,6 @@
 </footer>
 
 <script>
-    /**
-     * CONFIG — edit before production deploy
-     * whatsappOrder: digits only, country code, no +  (e.g. 2348012345678)
-     */
-    const CONFIG = {
-        whatsappOrder: "2340000000000"
-    };
-
-    /** Show one “page” section and highlight the matching nav link. */
     function navigate(pageId) {
         document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
         document.querySelectorAll("nav a").forEach((a) => a.classList.remove("active"));
@@ -749,7 +669,6 @@
         window.scrollTo(0, 0);
     }
 
-    /** Read all .cart-check inputs; rebuild cart HTML and total (₦). */
     function syncCart() {
         const checkboxes = document.querySelectorAll(".cart-check");
         const cartDisplay = document.getElementById("cart-list");
@@ -774,22 +693,17 @@
         totalDisplay.innerText = total.toLocaleString();
     }
 
-    /** WhatsApp deep link with prefilled total, or alert for other payment modes. */
     function submitOrder() {
         const total = document.getElementById("total-price").innerText;
         const method = document.getElementById("payment-choice").value;
 
         if (method === "WhatsApp Business") {
-            const text = encodeURIComponent(
-                `Hello Birds Of The Same Feather,\n\nI would like to place an order for a total of ₦${total}.\n\n(Please confirm availability.)`
-            );
-            window.open(`https://wa.me/${CONFIG.whatsappOrder}?text=${text}`, "_blank", "noopener,noreferrer");
+            window.open(`https://wa.me/2340000000000?text=I%20would%20like%20to%20place%20an%20order%20for%20a%20total%20of%20₦${total}`, "_blank");
         } else {
             alert(`Order Initialized!\nTotal: ₦${total}\nMethod: ${method}\n\nOur team will contact you for payment details.`);
         }
     }
 
-    /** Partner cards must use data-brand matching the first argument here. */
     function filterPartnerProducts(brand, button) {
         document.querySelectorAll(".brand-tab").forEach((tab) => tab.classList.remove("active"));
         button.classList.add("active");
